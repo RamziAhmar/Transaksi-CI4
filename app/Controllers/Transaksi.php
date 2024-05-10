@@ -2,27 +2,29 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\TransaksiModel;
-use App\Models\CustomerModel;
 use App\Models\BarangModel;
+use App\Models\CustomerModel;
+use App\Models\TransaksiModel;
+use App\Controllers\BaseController;
+use App\Models\TransaksiDetailModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class Transaksi extends BaseController
-{   
+{
     protected $customerModel;
     protected $itemModel;
+    protected $transaksiModel;
+    protected $transaksiDetailModel;
 
     public function __construct()
     {
         $this->customerModel = new CustomerModel();
         $this->itemModel = new BarangModel();
+        $this->transaksiModel = new TransaksiModel();
+        $this->transaksiDetailModel = new TransaksiDetailModel();
     }
     public function index()
     {
-        $this->customerModel = new CustomerModel();
-        $this->itemModel = new BarangModel();
-
         $data = [
             'active' => 'transaksi',
             'judul' => 'Transaksi'
@@ -33,31 +35,29 @@ class Transaksi extends BaseController
         return view('transaksi', $data);
     }
 
-    public function store()
+    public function save()
     {
         $data = $this->request->getPost();
 
-        if (! $this->validateData($data)) {
-            return redirect()->back()->with('message', $this->validator->getErrors());
-        }
+        // if (!$this->validateData($data)) {
+        //     return redirect()->back()->with('message', $this->validator->getErrors());
+        // }
 
-        $transaction = $this->transaction->insert($data);
-        $dataDetail  = [];
+        $transaksi = $this->transaksiModel->insert($data);
+        $dataDetail = [];
 
-        foreach ($data['product_id'] as $key => $productId) {
+        foreach ($data['id_barang'] as $key => $productId) {
             $dataDetail[] = [
-                'transaction_id' => $transaction,
-                'product_id'     => $productId,
-                'qty'            => $data['qty'][$key],
-                'price'          => $data['price'][$key],
-                'amount'         => $data['amount'][$key],
+                'id_transaksi_header' => $transaksi,
+                'id_barang' => $productId,
+                'qty' => $data['qty'][$key],
+                'harga' => $data['harga'][$key],
+                'jumlah' => $data['jumlah'][$key],
             ];
         }
 
-        $this->transactionDetail->insertBatch($dataDetail);
+        $this->transaksiDetailModel->insertBatch($dataDetail);
 
-        sendTelegramNotification('User ' . session()->get('username') . ' menambahkan Transaksi ' . $data['no_transaction']);
-
-        return redirect()->route('Transaction::index')->with('message', 'Sukses tambah data');
+        return redirect()->route('Transaksi::index')->with('message', 'Sukses tambah data');
     }
 }

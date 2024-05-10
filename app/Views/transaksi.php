@@ -6,8 +6,8 @@
   <form action="transaksi/save" method="post">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="customer">Customer:</label>
-        <select class="form-control" name="customer" id="customer">
+        <label for="id_customer">Customer:</label>
+        <select class="form-control" name="id_customer" id="id_customer">
           <option>Pilih</option>
           <?php foreach ($customers as $cst): ?>
             <option value="<?= $cst['id_customer'] ?>"><?= $cst['nama_customer'] ?></option>
@@ -17,15 +17,14 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="nomerTransaksi">Nomor Transaksi:</label>
-        <input type="text" value="<?= 'TRX' . date('siHmdY') ?>" class="form-control" name="nomorTransaksi"
-          id="nomerTransaksi" placeholder="Masukkan nomor transaksi" readonly>
+        <label for="nomor_transaksi">Nomor Transaksi:</label>
+        <input type="text" value="<?= 'TRX' . date('siHmdY') ?>" class="form-control" name="nomor_transaksi" id="nomor_transaksi" placeholder="Masukkan nomor transaksi" readonly>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="tanggalTransaksi">Tanggal Transaksi:</label>
-        <input type="date" class="form-control" name="tanggalTransaksi" id="tanggalTransaksi">
+        <label for="tanggal_transaksi">Tanggal Transaksi:</label>
+        <input type="date" class="form-control" name="tanggal_transaksi" id="tanggal_transaksi">
       </div>
     </div>
     <table class="table">
@@ -61,27 +60,27 @@
       </div>
       <div class="form-group col-md-6">
         <label for="total">Sub Total:</label>
-        <input type="number" class="form-control" name="sub_total" id="sub_total" value="0" readonly>
+        <input type="number" class="form-control" name="total" id="total" value="0" readonly>
       </div>
       <div class="form-group col-md-6">
       </div>
       <div class="form-group col-md-6">
         <label for="diskon">Diskon:</label>
-        <input type="number" class="form-control" name="discount" id="discount" value="0"
+        <input type="number" class="form-control" name="diskon" id="diskon" value="0"
           onchange="calculatePayableTotal()">
       </div>
       <div class="form-group col-md-6">
       </div>
       <div class="form-group col-md-6">
         <label for="ppn">PPN:</label>
-        <input type="number" class="form-control" name="tax" id="tax" value="11" onchange="calculatePayableTotal()"
+        <input type="number" class="form-control" name="ppn" id="ppn" value="11" onchange="calculatePayableTotal()"
           readonly>
       </div>
       <div class="form-group col-md-6">
       </div>
       <div class="form-group col-md-6">
         <label for="grandTotal">Grand Total:</label>
-        <input type="number" name="total" id="total" class="form-control" value="0" readonly>
+        <input type="number" name="grand_total" id="grand_total" class="form-control" value="0" readonly>
       </div>
     </div>
     <div class="form-group">
@@ -144,26 +143,26 @@
         total += jumlah;
       });
 
-      document.getElementById('sub_total').value = total.toFixed(0);
+      document.getElementById('total').value = total.toFixed(0);
 
       calculatePayableTotal();
     }
 
     function calculatePayableTotal() {
-      let subTotal = parseFloat(document.getElementById('sub_total').value);
-      let discount = parseFloat(document.getElementById('discount').value);
-      let tax = parseFloat(document.getElementById('tax').value);
-      let total = subTotal - (subTotal * discount / 100) + (subTotal * tax / 100);
+      let subTotal = parseFloat(document.getElementById('total').value);
+      let diskon = parseFloat(document.getElementById('diskon').value);
+      let ppn = parseFloat(document.getElementById('ppn').value);
+      let total = subTotal - (subTotal * diskon / 100) + (subTotal * ppn / 100);
 
-      document.getElementById('total').value = total.toFixed(0);
+      document.getElementById('grand_total').value = total.toFixed(0);
 
       calculateChange();
     }
 
     function calculateChange() {
       let total = parseFloat(document.getElementById('total').value);
-      let pay = parseFloat(document.getElementById('pay').value);
-      let change = pay - total;
+      let grand_total = parseFloat(document.getElementById('grand_total').value);
+      let change = grand_total - total;
 
       document.getElementById('change').value = change.toFixed(0);
     }
