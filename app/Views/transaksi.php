@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<h1>Transaksi</h2>
   <form action="transaksi/save" method="post">
     <div class="form-row">
       <div class="form-group col-md-6">

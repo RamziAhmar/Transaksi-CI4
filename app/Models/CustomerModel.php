@@ -11,4 +11,19 @@ class CustomerModel extends Model
     protected $primaryKey = 'id_customer';
     
     protected $allowedFields = ['nama_customer', 'nomor_telepon', 'email'];
+
+    public function insertData($data)
+    {
+        $this->db->table('customer')->insert($data);
+    }
+
+    public function updateData($data)
+    {
+        $this->db->table('customer')->where('id_customer', $data['id_customer'])->update($data);
+    }
+
+    public function deleteData($data)
+    {
+        $this->db->table('customer')->where('id_customer', $data['id_customer'])->delete($data);
+    }
 }

@@ -29,27 +29,31 @@
                 <thead>
                     <tr class="text-center">
                         <th width="50px">No</th>
-                        <th>Nama Barang</th>
+                        <th>Transaksi Header</th>
+                        <th>Barang</th>
+                        <th>Qty</th>
                         <th>Harga</th>
-                        <th>Stok</th>
+                        <th>Jumlah</th>
                         <th width="100px">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     $no = 1;
-                    foreach ($barang as $key => $value) { ?>
+                    foreach ($transaksiDetail as $key => $value) { ?>
                         <tr>
                             <td class="text-center"><?= $no++ ?></td>
-                            <td><?= $value['nama_barang'] ?></td>
-                            <td><?= number_format($value['harga_barang'], 0) ?></td>
-                            <td><?= $value['stok'] ?></td>
+                            <td><?= $value['id_transaksi_header'] ?></td>
+                            <td><?= $value['id_barang'] ?></td>
+                            <td><?= $value['qty'] ?></td>
+                            <td><?= $value['harga'] ?></td>
+                            <td><?= $value['jumlah'] ?></td>
                             <td class="text-center">
                                 <button class="btn btn-warning btn-sm" data-toggle="modal"
-                                    data-target="#edit-data<?= $value['id_barang'] ?>"><i
+                                    data-target="#edit-data<?= $value['id_transaksi_detail'] ?>"><i
                                         class="fas fa-pencil-alt"></i></button>
                                 <button class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target="#hapus-data<?= $value['id_barang'] ?>"><i
+                                    data-target="#hapus-data<?= $value['id_transaksi_detail'] ?>"><i
                                         class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -72,21 +76,31 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/barang/insertData" method="post">
+            <form action="/transaksi_detail/insertData" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nama_barang">Nama Barang</label>
-                        <input type="text" name="nama_barang" id="nama_barang" class="form-control"
-                            placeholder="Masukkan Barang" required>
+                        <label for="id_transaksi_header">id_transaksi_header</label>
+                        <input type="text" name="id_transaksi_header" id="id_transaksi_header" class="form-control"
+                            placeholder="Masukkan id_transaksi_header" required>
                     </div>
                     <div class="form-group">
-                        <label for="harga_barang">Harga Barang</label>
-                        <input type="text" name="harga_barang" id="harga_barang" class="form-control" placeholder="Masukkan harga barang"
+                        <label for="id_barang">Id Barang</label>
+                        <input type="text" name="id_barang" id="id_barang" class="form-control" placeholder="Masukkan Id Barang"
                             required>
                     </div>
                     <div class="form-group">
-                        <label for="stok">stok</label>
-                        <input type="text" name="stok" id="stok" class="form-control" placeholder="Masukkan stok"
+                        <label for="qty">Qty</label>
+                        <input type="text" name="qty" id="qty" class="form-control" placeholder="Masukkan Qty"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="harga">Harga</label>
+                        <input type="text" name="harga" id="harga" class="form-control" placeholder="Masukkan Harga"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah</label>
+                        <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Masukkan Jumlah"
                             required>
                     </div>
                 </div>
@@ -102,9 +116,9 @@
 </div>
 <!-- /.modal -->
 
-<?php foreach ($barang as $key => $value) { ?>
+<?php foreach ($transaksiDetail as $key => $value) { ?>
 <!-- Modal Tambah Data -->
-<div class="modal fade" id="edit-data<?= $value['id_barang'] ?>">
+<div class="modal fade" id="edit-data<?= $value['id_transaksi_detail'] ?>">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,21 +127,31 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/barang/updateData/<?= $value['id_barang'] ?>" method="post">
+            <form action="/transaksi_detail/updateData/<?= $value['id_transaksi_detail'] ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nama_barang">Nama Barang</label>
-                        <input type="text" name="nama_barang" id="nama_barang" class="form-control"
-                            placeholder="Masukkan Barang" value="<?= $value['nama_barang'] ?>" required>
+                        <label for="id_transaksi_header">Id Transaksi Header</label>
+                        <input type="text" name="id_transaksi_header" id="id_transaksi_header" class="form-control"
+                            placeholder="Masukkan Id Transaksi Header" value="<?= $value['id_transaksi_header'] ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="harga_barang">Harga Barang</label>
-                        <input type="text" name="harga_barang" id="harga_barang" class="form-control" placeholder="Masukkan harga barang" value="<?= $value['harga_barang'] ?>"
+                        <label for="id_barang">Id Barang</label>
+                        <input type="text" name="id_barang" id="id_barang" class="form-control" placeholder="Masukkan id_barang" value="<?= $value['id_barang'] ?>"
                             required>
                     </div>
                     <div class="form-group">
-                        <label for="stok">stok</label>
-                        <input type="text" name="stok" id="stok" class="form-control" placeholder="Masukkan stok" value="<?= $value['stok'] ?>"
+                        <label for="qty">Qty</label>
+                        <input type="text" name="qty" id="qty" class="form-control" placeholder="Masukkan Qty" value="<?= $value['qty'] ?>"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="harga">Harga</label>
+                        <input type="text" name="harga" id="harga" class="form-control" placeholder="Masukkan harga" value="<?= $value['harga'] ?>"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah</label>
+                        <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Masukkan jumlah" value="<?= $value['jumlah'] ?>"
                             required>
                     </div>
                 </div>
@@ -145,9 +169,9 @@
 <?php } ?>
 
 <!-- Modal Hapus Data -->
-<?php foreach ($barang as $key => $value) { ?>
+<?php foreach ($transaksiDetail as $key => $value) { ?>
     <!-- Modal Tambah Data -->
-    <div class="modal fade" id="hapus-data<?= $value['id_barang'] ?>">
+    <div class="modal fade" id="hapus-data<?= $value['id_transaksi_detail'] ?>">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -157,11 +181,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus <?= $subtitle ?> <b><?= $value['nama_barang'] ?></b>..?</p>
+                    <p>Apakah anda yakin ingin menghapus..?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <a href="<?= base_url('barang/deleteData/'.$value['id_barang']) ?>" class="btn btn-danger">Hapus</a>
+                    <a href="<?= base_url('transaksi_detail/deleteData/'.$value['id_transaksi_detail']) ?>" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -170,4 +194,5 @@
     </div>
     <!-- /.modal -->
 <?php } ?>
+
 <?= $this->endSection() ?>

@@ -113,6 +113,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Barang</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="/transaksi_detail" class="nav-link <?= ($active == 'transaksi_detail') ? 'active' : '' ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transaksi Detail</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/transaksi_header" class="nav-link <?= ($active == 'transaksi_header') ? 'active' : '' ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transaksi Header</p>
+                </a>
+              </li>
             </ul>
           </li>
           
@@ -130,7 +142,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Starter Page</h1>
+            <h1 class="m-0"><?= $judul ?></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
